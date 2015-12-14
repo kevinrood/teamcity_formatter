@@ -44,3 +44,7 @@ Test failures include the stack trace of the exception which triggered the failu
 This gem drew some code from [`cucumber_teamcity`](https://github.com/ankurcha/cucumber_teamcity/). The `cucumber_teamcity` formatter is not compatible with Cucumber 2.
 
 Also, though we did not use code from their project, JetBrains makes available some TeamCity-related code [here](https://github.com/JetBrains/intellij-plugins/tree/master/ruby-testing/src/rb/testing/patch/bdd/teamcity), which may be of interest to others researching TeamCity Cucumber formatters.
+
+## License
+
+Apache License, Version 2.0
