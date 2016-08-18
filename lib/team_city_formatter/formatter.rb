@@ -108,13 +108,13 @@ module TeamCityFormatter
         x.name = "#{cuke_scenario_outline.keyword}: #{cuke_scenario_outline.name}"
         x.example_column_names = cuke_example_rows.first.send(:data).keys
         x.examples =
-            cuke_example_rows.map do |example_row|
-              example_row.send(:data).values
-            end.map do |example_column_values|
-              Example.new.tap do |x|
-                x.column_values = example_column_values
-              end
+          cuke_example_rows.map do |example_row|
+            example_row.send(:data).values
+          end.map do |example_column_values|
+            Example.new.tap do |x|
+              x.column_values = example_column_values
             end
+          end
       end
     end
 
