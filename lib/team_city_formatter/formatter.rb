@@ -76,7 +76,11 @@ module TeamCityFormatter
           example = @scenario_outline.examples.find { |example| example.column_values == cuke_table_row.cells }
           test_name = scenario_outline_test_name(@scenario_outline.name, example.column_values)
           if exception
-            @logger.test_failed(test_name, exception)
+            if exception.is_a? ::Cucumber::Pending
+              @logger.test_ignored(test_name, 'Pending test')
+            else
+              @logger.test_failed(test_name, exception)
+            end
           end
           @logger.test_finished(test_name)
 
@@ -104,20 +108,24 @@ module TeamCityFormatter
         x.name = "#{cuke_scenario_outline.keyword}: #{cuke_scenario_outline.name}"
         x.example_column_names = cuke_example_rows.first.send(:data).keys
         x.examples =
-          cuke_example_rows.map do |example_row|
-            example_row.send(:data).values
-          end.map do |example_column_values|
-            Example.new.tap do |x|
-              x.column_values = example_column_values
+            cuke_example_rows.map do |example_row|
+              example_row.send(:data).values
+            end.map do |example_column_values|
+              Example.new.tap do |x|
+                x.column_values = example_column_values
+              end
             end
-          end
       end
     end
 
     def after_scenario(cuke_scenario)
       test_name = @scenario.name
       if @exception
-        @logger.test_failed_with_exception(test_name, @exception)
+        if @exception.is_a? ::Cucumber::Pending
+          @logger.test_ignored(test_name, 'Pending test')
+        else
+          @logger.test_failed_with_exception(test_name, @exception)
+        end
       end
       # a background step previously failed and was reported the first time the failure happened
       if (cuke_scenario.status == :skipped) && (@exception == nil)
@@ -131,7 +139,7 @@ module TeamCityFormatter
     end
 
     def scenario_outline_test_name(scenario_outline_name, example_column_values)
-      "#{scenario_outline_name} - | #{example_column_values.join(' | ')} |"
+      "#{scenario_outline_name} | #{example_column_values.join(' | ')} |"
     end
   end
 end
