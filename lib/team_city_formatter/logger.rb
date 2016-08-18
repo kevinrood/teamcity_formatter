@@ -5,15 +5,15 @@ module TeamCityFormatter
     end
 
     def test_suite_started(test_suite_name)
-      render_output("##teamcity[testSuiteStarted name='#{teamcity_escape(test_suite_name)}' timestamp='#{timestamp}']")
+      render_output("##teamcity[testSuiteStarted flowId='#{flow_id}' name='#{teamcity_escape(test_suite_name)}' timestamp='#{timestamp}']")
     end
 
     def test_suite_finished(test_suite_name)
-      render_output("##teamcity[testSuiteFinished name='#{teamcity_escape(test_suite_name)}' timestamp='#{timestamp}']")
+      render_output("##teamcity[testSuiteFinished flowId='#{flow_id}' name='#{teamcity_escape(test_suite_name)}' timestamp='#{timestamp}']")
     end
 
     def test_started(test_name)
-      render_output("##teamcity[testStarted name='#{teamcity_escape(test_name)}' captureStandardOutput='true' timestamp='#{timestamp}']")
+      render_output("##teamcity[testStarted flowId='#{flow_id}' name='#{teamcity_escape(test_name)}' captureStandardOutput='true' timestamp='#{timestamp}']")
     end
 
     def test_failed_with_exception(test_name, exception)
@@ -22,15 +22,15 @@ module TeamCityFormatter
     end
 
     def test_failed(test_name, details)
-      render_output("##teamcity[testFailed name='#{teamcity_escape(test_name)}' details='#{teamcity_escape(details)}' timestamp='#{timestamp}']")
+      render_output("##teamcity[testFailed flowId='#{flow_id}' name='#{teamcity_escape(test_name)}' message='#{teamcity_escape(details)}' timestamp='#{timestamp}']")
     end
 
     def test_ignored(test_name, details)
-      render_output("##teamcity[testIgnored name='#{teamcity_escape(test_name)}' message='#{teamcity_escape(details)}' timestamp='#{timestamp}']")
+      render_output("##teamcity[testIgnored flowId='#{flow_id}' name='#{teamcity_escape(test_name)}' message='#{teamcity_escape(details)}' timestamp='#{timestamp}']")
     end
 
     def test_finished(test_name)
-      render_output("##teamcity[testFinished name='#{teamcity_escape(test_name)}' timestamp='#{timestamp}']")
+      render_output("##teamcity[testFinished flowId='#{flow_id}' name='#{teamcity_escape(test_name)}' timestamp='#{timestamp}']")
     end
 
     private
@@ -64,6 +64,10 @@ module TeamCityFormatter
     def format_exception(exception)
       lines = ["#{exception.message} (#{exception.class})"] + exception.backtrace
       lines.join("\n")
+    end
+
+    def flow_id
+      Process.pid
     end
   end
 end
