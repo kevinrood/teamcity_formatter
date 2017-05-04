@@ -103,7 +103,7 @@ module TeamCityFormatter
     end
 
     def before_scenario_outline(cuke_scenario_outline)
-      cuke_example_rows = cuke_scenario_outline.examples_tables.map {|table| table.example_rows}.flatten
+      cuke_example_rows = cuke_scenario_outline.examples_tables.map(&:example_rows).flatten
       @scenario_outline = ScenarioOutline.new.tap do |x|
         x.name = "#{cuke_scenario_outline.keyword}: #{cuke_scenario_outline.name}"
         x.example_column_names = cuke_example_rows.first.send(:data).keys
