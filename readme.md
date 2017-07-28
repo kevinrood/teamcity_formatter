@@ -62,7 +62,7 @@ Contributor                                     | Contribution
 [PositiveAlex](https://github.com/PositiveAlex) | Allow cucumber to use the formatter directly from the command line
 [aklossrbh](https://github.com/aklossrbh)       | Support [parallel_cucumber](https://rubygems.org/gems/parallel_cucumber)
 [gricsi](https://github.com/gricsi)             | Log pending scenarios and scenario examples as ignored tests
-
+[jonfinerty](https://github.com/jonfinerty)     | Use example rows from multiple example tables
 ## License
 
 Apache License, Version 2.0
